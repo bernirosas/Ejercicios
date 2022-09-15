@@ -10,14 +10,14 @@ class Shopper(Thread):
     def __init__(self, nombre, velocidad):
         # No Modificar
         super().__init__()
-        self.nombre = nombre
-        self.velocidad = velocidad
         self.posicion = 0
         self.distancia_tienda = 0
         self.distancia_destino = 0
         self.pedido_actual = None
         self.termino_jornada = False
         # COMPLETAR DESDE AQUI
+        self.nombre = nombre
+        self.velocidad = velocidad
 
     @property
     def ocupado(self):
@@ -42,21 +42,21 @@ class Shopper(Thread):
         print(f"{self.nombre} avanzó una posición hasta {self.posicion}")
 
     def run(self):
-        while self.termino_jornada is False and self.ocupado:
-            if self.pedido_actual:
+        while self.termino_jornada is False:
+            while self.pedido_actual:
                 self.avanzar()
-            if self.posicion == self.distancia_tienda:
-                print("Se llego a la tienda")
-                self.pedido_actual.evento_llego_repartidor.set()
-                print("Esperando pedido...")
-                self.pedido_actual.evento_pedido_listo.wait()
-                print("Pedido listo.")
-            if self.posicion == self.distancia_destino:
-                print("Se ha entregado el pedido")
-                self.pedido_actual.entregado = True
-                Shopper.evento_disponible.set()
-                self.posicion = 0
-                self.pedido_actual = None
+                if self.posicion == self.distancia_tienda:
+                    print("Se llego a la tienda")
+                    self.pedido_actual.evento_llego_repartidor.set()
+                    print(f"Esperando pedido...{self.pedido_actual.id_}")
+                    self.pedido_actual.evento_pedido_listo.wait()
+                    print("Pedido listo.")
+                if self.posicion == self.distancia_destino:
+                    print(f"{self.nombre} ha entregado el pedido")
+                    self.pedido_actual.entregado = True
+                    Shopper.evento_disponible.set()
+                    self.posicion = 0
+                    self.pedido_actual = None
 
 
 if __name__ == "__main__":

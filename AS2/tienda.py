@@ -21,17 +21,17 @@ class Tienda(Thread):
         num = randint(1, 10)
         print(f"El pedido {pedido.id_} se demorara {num}")
         sleep(num)
-        print("Pedido preparado con éxito")
+        print(f"Pedido {pedido.id_} preparado con éxito")
 
     def run(self):
         while self.abierta:
             if len(self.cola_pedidos) >= 1:
                 with self.candado:
                     seleccionado = self.cola_pedidos.pop(0)
-                    self.preparar_pedido(seleccionado[0])
-                    seleccionado[0].evento_pedido_listo.set()
-                    seleccionado[0].evento_llego_repartidor.wait()
-                    print("Pedido retirado")
+                self.preparar_pedido(seleccionado[0])
+                seleccionado[0].evento_pedido_listo.set()
+                seleccionado[0].evento_llego_repartidor.wait()
+                print("Pedido retirado")
             else:
                 print("No hay pedidos")
                 num = randint(1, 5)
