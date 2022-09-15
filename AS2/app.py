@@ -16,13 +16,13 @@ class DCComidApp(Thread):
 
     def obtener_shopper(self):
         for shopper in self.shoppers:
-            if shopper.pedido_actual is None:
+            if not shopper.ocupado:
                 return shopper
         print("Todos los shoppers están ocupados")
-        shopper.evento_disponible.wait()
+        Shopper.evento_disponible.wait()
         print("Se desocupó un shopper :)")
-        shopper.evento_disponible.clear()
-        self.obtener_shopper()
+        Shopper.evento_disponible.clear()
+        return self.obtener_shopper()
 
     def run(self):
         while len(self.pedidos) >= 1:
@@ -32,7 +32,7 @@ class DCComidApp(Thread):
             shopper = self.obtener_shopper()
             shopper.asignar_pedido(pedido)
             tienda_elegida.ingresar_pedido(pedido, shopper)
-            num = randint(1,5)
+            num = randint(1, 5)
             sleep(num)
 
 

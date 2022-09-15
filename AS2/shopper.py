@@ -42,7 +42,7 @@ class Shopper(Thread):
         print(f"{self.nombre} avanzó una posición hasta {self.posicion}")
 
     def run(self):
-        while  self.termino_jornada is False and self.ocupado:
+        while self.termino_jornada is False and self.ocupado:
             if self.pedido_actual:
                 self.avanzar()
             if self.posicion == self.distancia_tienda:
@@ -54,7 +54,7 @@ class Shopper(Thread):
             if self.posicion == self.distancia_destino:
                 print("Se ha entregado el pedido")
                 self.pedido_actual.entregado = True
-                self.evento_disponible.set()
+                Shopper.evento_disponible.set()
                 self.posicion = 0
                 self.pedido_actual = None
 
