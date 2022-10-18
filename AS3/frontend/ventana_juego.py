@@ -20,20 +20,21 @@ class VentanaJuego(window_name, base_class):  # pylint: disable=E0602
         self.init_gui()
 
     def mostrar_ventana(self, usuario):
-        self.casilla_nombre = QLabel(f"{usuario}", self)
-        self.casilla_puntaje = QLabel(str(PUNTAJE_INICIAL), self)
-        self.casilla_tiempo = QLabel(str(TIEMPO_JUEGO), self)
+        self.casilla_nombre.setText(usuario)
+        self.casilla_puntaje.setText(str(PUNTAJE_INICIAL))
+        self.casilla_tiempo.setText(str(TIEMPO_JUEGO))
         self.show()
         self.senal_iniciar_juego.emit()
 
     def keyPressEvent(self, event):
-        if event.key() == TECLA_ABAJO:
+        print(event.key())
+        if event.key() == 83:
             self.senal_tecla.emit("D")
-        elif event.key() == TECLA_ARRIBA:
+        elif event.key() == 87:
             self.senal_tecla.emit("U")
-        elif event.key() == TECLA_DERECHA:
+        elif event.key() == 68:
             self.senal_tecla.emit("R")
-        elif event.key() == TECLA_IZQUIERDA:
+        elif event.key() == 65:
             self.senal_tecla.emit("L")
 
     def init_gui(self):

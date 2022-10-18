@@ -15,6 +15,7 @@ class LogicaInicio(QObject):
         errores = []
         usuario, contraseña = tupla_respuesta
         if len(usuario) > p.MAX_CARACTERES or not usuario.isalnum():
+            print(usuario)
             errores.append("Usuario")
         if contraseña != "Contraseña":
             errores.append("Contraseña")
