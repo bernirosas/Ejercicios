@@ -31,8 +31,6 @@ class Cliente(QObject):
 
         except ConnectionError as e:
             print(f"\n-ERROR: El servidor no está inicializado. {e}-")
-        except ConnectionRefusedError as e:
-            print(f"\n-ERROR: No se pudo conectar al servidor.{e}-")
 
     def comenzar_a_escuchar(self):
         """
@@ -65,7 +63,7 @@ class Cliente(QObject):
         bytes_mensaje = bytearray()
 
         while len(bytes_mensaje) < largo_mensaje:
-            tamano_chunk = min(largo_mensaje -len(bytes_mensaje), 64)
+            tamano_chunk = min(largo_mensaje - len(bytes_mensaje), 64)
             bytes_mensaje += self.socket_cliente.recv(tamano_chunk)
         mensaje = self.decodificar_mensaje(bytes_mensaje)
         return mensaje
@@ -76,7 +74,7 @@ class Cliente(QObject):
         """
         # TODO: Completado por estudiante
         bytes_mensaje = self.codificar_mensaje(mensaje)
-        largo_mensaje_bytes = len(mensaje).to_bytes(4, byteorder="little")
+        largo_mensaje_bytes = len(bytes_mensaje).to_bytes(4, byteorder="little")
         self.socket_cliente.sendall(largo_mensaje_bytes + bytes_mensaje)
 
     def codificar_mensaje(self, mensaje):
@@ -86,7 +84,7 @@ class Cliente(QObject):
             mensaje_bytes = mensaje_json.encode()
             return mensaje_bytes
         except json.JSONDecodeError:
-            print("ERROR: No se pudo codificar el mensaje")
+            print("ERROR: No se pudo codificar el mensaje desde cliente")
             return b""
 
     def decodificar_mensaje(self, mensaje_bytes):
@@ -94,5 +92,5 @@ class Cliente(QObject):
             mensaje = json.loads(mensaje_bytes)
             return mensaje
         except json.JSONDecodeError:
-            print("ERROR: No se pudo decodificar el mensaje")
+            print("ERROR: No se pudo decodificar el mensaje desde cliente")
             return {}

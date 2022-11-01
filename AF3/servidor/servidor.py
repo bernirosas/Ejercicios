@@ -51,10 +51,10 @@ class Servidor:
             socket_cliente, direccion = self.socket_servidor.accept()
             self.log(f"Cliente con dirección {direccion} ha sido aceptado")
             thread_cliente = threading.Thread(target=self.escuchar_cliente,
-                                              daemon=True, args=(self.
-                                                                 id_cliente,
-                                                                 socket_cliente
-                                                                 ))
+                                              args=(self.id_cliente,
+                                                    socket_cliente),
+                                              daemon=True,
+                                              )
             thread_cliente.start()
             self.sockets[self.id_cliente] = socket_cliente
             self.id_cliente += 1
@@ -105,7 +105,7 @@ class Servidor:
         # TODO: Completado por estudiante
         largo_mensaje_bytes = socket_cliente.recv(4)
         largo_mensaje = int.from_bytes(largo_mensaje_bytes, byteorder="little")
-        bytes_mensaje =bytearray()
+        bytes_mensaje = bytearray()
 
         while len(bytes_mensaje) < largo_mensaje:
             tamano_chuck = min(largo_mensaje - len(bytes_mensaje), 64)
@@ -164,7 +164,7 @@ class Servidor:
             mensaje_bytes = mensaje_json.encode()
             return mensaje_bytes
         except json.JSONDecodeError:
-            self.log("ERROR: No se pudo codificar el mensaje")
+            self.log("ERROR: No se pudo codificar el mensaje desde servidor")
             return b""
 
     def decodificar_mensaje(self, mensaje_bytes):
@@ -173,7 +173,7 @@ class Servidor:
             mensaje = json.loads(mensaje_bytes)
             return mensaje
         except json.JSONDecodeError:
-            self.log("ERROR: No se pudo codificar mensaje")
+            self.log("ERROR: No se pudo decodificar mensaje desde servidor")
             return dict()
 
     def log(self, mensaje: str):
