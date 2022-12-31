@@ -1,0 +1,12 @@
+Tablero actual jugador:
+Ancho:
+3
+Largo:
+3
+0-1- 
+1-2- 
+ - - 
+Tablero oculto de bestias: 
+ - - 
+ - -N
+ -N- 
