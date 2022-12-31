@@ -124,6 +124,7 @@ class Servidor:
         largo_mensaje_bytes = len(bytes_mensaje).to_bytes(4, byteorder="little")
         socket_cliente.sendall(largo_mensaje_bytes + bytes_mensaje)
 
+
     def enviar_archivo(self, socket_cliente, ruta):
         """
         Recibe una ruta a un archivo a enviar y los separa en chunks de 8 kb

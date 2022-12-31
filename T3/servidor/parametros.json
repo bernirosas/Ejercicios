@@ -1,0 +1,7 @@
+{
+    "HOST": "localhost",
+    "PORT": 47365,
+    "CUENTA_REGRESIVA_INICIO":10,
+    "CUENTA_REGRESIVA_RONDA":15,
+    "BARAJA_PANTALLA":5
+}
